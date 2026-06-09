@@ -1,59 +1,82 @@
 # CoberturaBugRepro
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.14.
+To repro the issue.
 
-## Development server
+- `npm ci`
+- `npx ng test --coverage`
+- Check `./coverage/cobertura-bug-repro/cobertura-coverage.xml`
+  
+  It should look like this:
 
-To start a local development server, run:
+  ```xml
+  <class name="app.ts" filename="src/app/app.ts" line-rate="0.5" branch-rate="1">
+    <methods>
+    <method name="(anonymous_0)" hits="0" signature="()V">
+        <lines>
+        <line number="15" hits="0"/>
+        </lines>
+    </method>
+    <method name="(anonymous_1)" hits="0" signature="()V">
+        <lines>
+        <line number="19" hits="0"/>
+        </lines>
+    </method>
+    <method name="(anonymous_2)" hits="1" signature="()V">
+        <lines>
+        <line number="10" hits="1"/>
+        </lines>
+    </method>
+    </methods>
+    <lines>
+    <line number="10" hits="4" branch="true" condition-coverage="100% (10/10)"/>
+    <line number="11" hits="2" branch="true" condition-coverage="100% (1/1)"/>
+    <line number="16" hits="0" branch="false"/>
+    <line number="20" hits="0" branch="false"/>
+    </lines>
+  </class>
+  ```
 
-```bash
-ng serve
-```
+- As you can see, methods are generated with name `(anonymous_0)`, `(anonymous_1)` and so on. This is good.
+- Now go and change the version to `1.0.3` in the following section in the `package.json`:
+  
+  ```
+  "overrides": {
+    "ast-v8-to-istanbul": "1.0.2"
+  }
+  ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Run `npm install`
+- Run `npx ng test --coverage`
+- Check `./coverage/cobertura-bug-repro/cobertura-coverage.xml`
+  
+  It should look like this:
+  
+  ```xml
+  <class name="app.ts" filename="src/app/app.ts" line-rate="0.5" branch-rate="1">
+    <methods>
+      <method name="selectedReleases" hits="0" signature="()V">
+        <lines>
+          <line number="15" hits="0"/>
+        </lines>
+      </method>
+      <method name="selectedReleases" hits="0" signature="()V">
+        <lines>
+          <line number="19" hits="0"/>
+        </lines>
+      </method>
+      <method name="template" hits="1" signature="()V">
+        <lines>
+          <line number="10" hits="1"/>
+        </lines>
+      </method>
+    </methods>
+    <lines>
+      <line number="10" hits="4" branch="true" condition-coverage="100% (10/10)"/>
+      <line number="11" hits="2" branch="true" condition-coverage="100% (1/1)"/>
+      <line number="16" hits="0" branch="false"/>
+      <line number="20" hits="0" branch="false"/>
+    </lines>
+  </class>
+  ```
+  
+  - Now with version `1.0.3` we have duplicate method names `selectedReleases`.
